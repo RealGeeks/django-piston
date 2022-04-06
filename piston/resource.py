@@ -111,10 +111,10 @@ class Resource(object):
 
         try:
             result = meth(request, *args, **kwargs)
-        except FormValidationError, e:
+        except FormValidationError as e:
             # TODO: Use rc.BAD_REQUEST here
             return HttpResponse("Bad Request: %s" % e.form.errors, status=400)
-        except TypeError, e:
+        except TypeError as e:
             result = rc.BAD_REQUEST
             hm = HandlerMethod(meth)
             sig = hm.get_signature()
@@ -130,10 +130,10 @@ class Resource(object):
                 msg += '\n\nException was: %s' % str(e)
 
             result.content = format_error(msg)
-        except HttpStatusCode, e:
+        except HttpStatusCode as e:
             #result = e ## why is this being passed on and not just dealt with now?
             return e.response
-        except Exception, e:
+        except Exception as e:
             """
             On errors (like code errors), we'd like to be able to
             give crash reports to both admins and also the calling
@@ -176,7 +176,7 @@ class Resource(object):
             resp.streaming = self.stream
 
             return resp
-        except HttpStatusCode, e:
+        except HttpStatusCode as e:
             return e.response
 
     @staticmethod
