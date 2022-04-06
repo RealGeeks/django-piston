@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 
 from django.test import TestCase
@@ -11,7 +12,7 @@ from piston.forms import OAuthAuthenticationForm
 try:
     import yaml
 except ImportError:
-    print "Can't run YAML testsuite"
+    print("Can't run YAML testsuite")
     yaml = None
 
 import urllib, base64

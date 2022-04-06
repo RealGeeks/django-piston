@@ -1,3 +1,4 @@
+from __future__ import print_function
 import oauth
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User, AnonymousUser
@@ -75,7 +76,7 @@ def load_data_store():
 
     try:
         mod = __import__(module, {}, {}, attr)
-    except ImportError, e:
+    except ImportError as e:
         raise ImproperlyConfigured, 'Error importing OAuth data store %s: "%s"' % (module, e)
 
     try:
@@ -130,7 +131,7 @@ def oauth_request_token(request):
         token = oauth_server.fetch_request_token(oauth_request)
 
         response = HttpResponse(token.to_string())
-    except oauth.OAuthError, err:
+    except oauth.OAuthError as err:
         response = send_oauth_error(err)
 
     return response
@@ -153,7 +154,7 @@ def oauth_user_auth(request):
         
     try:
         token = oauth_server.fetch_request_token(oauth_request)
-    except oauth.OAuthError, err:
+    except oauth.OAuthError as err:
         return send_oauth_error(err)
         
     try:
@@ -184,7 +185,7 @@ def oauth_user_auth(request):
                 
             response = HttpResponseRedirect(callback+args)
                 
-        except oauth.OAuthError, err:
+        except oauth.OAuthError as err:
             response = send_oauth_error(err)
     else:
         response = HttpResponse('Action not allowed.')
@@ -200,7 +201,7 @@ def oauth_access_token(request):
     try:
         token = oauth_server.fetch_access_token(oauth_request)
         return HttpResponse(token.to_string())
-    except oauth.OAuthError, err:
+    except oauth.OAuthError as err:
         return send_oauth_error(err)
 
 INVALID_PARAMS_RESPONSE = send_oauth_error(oauth.OAuthError('Invalid request parameters.'))
@@ -224,8 +225,8 @@ class OAuthAuthentication(object):
         if self.is_valid_request(request):
             try:
                 consumer, token, parameters = self.validate_token(request)
-            except oauth.OAuthError, err:
-                print send_oauth_error(err)
+            except oauth.OAuthError as err:
+                print(send_oauth_error(err))
                 return False
 
             if consumer and token:

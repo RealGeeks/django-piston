@@ -1,3 +1,4 @@
+from __future__ import print_function
 import urllib
 from django.db import models
 from django.contrib.auth.models import User
@@ -104,10 +105,10 @@ class Consumer(models.Model):
                 mail_admins(subject, body, fail_silently=True)
 
             if settings.DEBUG:
-                print "Mail being sent, to=%s" % rcpt
-                print "Subject: %s" % subject
+                print("Mail being sent, to=%s" % rcpt)
+                print("Subject: %s" % subject)
 
-                print body
+                print(body)
 
     class Meta:
         app_label = 'piston'
